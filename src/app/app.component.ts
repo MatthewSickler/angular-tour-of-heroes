@@ -78,8 +78,13 @@ export class AppComponent implements OnInit {
     this.heroService.getHeroes().then(heroes => this.heroes = heroes);
   }
 
+  getHeroesSlowly(): void {
+    this.heroService.getHeroesSlowly().then(heroes => this.heroes = heroes);
+  }
+
   ngOnInit(): void {
-    this.getHeroes();
+    // this.getHeroes();
+    this.getHeroesSlowly();
   }
 
   onSelect(hero: Hero): void {
