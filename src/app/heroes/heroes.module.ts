@@ -22,6 +22,7 @@ import { HeroRoutingModule } from './heroes-routing.module';
     HeroDetailComponent,
     HeroSearchComponent
   ],
-  providers: [ HeroService, HeroSearchService ]
+  providers: [ HeroService, HeroSearchService ],
+  exports: [HeroSearchComponent]
 })
 export class HeroesModule {}

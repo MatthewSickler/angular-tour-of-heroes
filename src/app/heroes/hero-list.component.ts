@@ -35,7 +35,6 @@ export class HeroListComponent implements OnInit {
     for(let x = 0; x < this.heroes.length; x++) {
       if(this.heroes[x].id === this.selectedId) {
         this.selectedHero = this.heroes[x];
-        console.log(this.selectedHero);
         return;
       }
     }
