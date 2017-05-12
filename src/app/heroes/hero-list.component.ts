@@ -1,29 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
 
+import 'rxjs/add/operator/switchMap';
+
 @Component({
   selector: 'my-heroes',
-  templateUrl: 'heroes.component.html',
-  styleUrls: ['./heroes.component.css']
+  templateUrl: 'hero-list.component.html',
+  styleUrls: ['./hero-list.component.css']
 })
 
-export class HeroesComponent implements OnInit {
+export class HeroListComponent implements OnInit {
   selectedHero: Hero;
   heroes: Hero[];
+  private selectedId: number;
 
   constructor(
     private heroService: HeroService,
-    private router: Router,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   getHeroes(): void {
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+    this.heroService.getHeroes().then(heroes => {this.heroes = heroes; return this.getSelectedHero();});
+  }
+
+  getSelectedHero(): void {
+    if(!this.selectedId) {
+      return;
+    }
+
+    for(let x = 0; x < this.heroes.length; x++) {
+      if(this.heroes[x].id === this.selectedId) {
+        this.selectedHero = this.heroes[x];
+        console.log(this.selectedHero);
+        return;
+      }
+    }
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => this.selectedId = +params['id']);
     this.getHeroes();
   }
 
@@ -32,7 +51,7 @@ export class HeroesComponent implements OnInit {
   }
 
   gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedHero.id]);
+    this.router.navigate(['/hero', this.selectedHero.id, {source: 'heroes'}]);
   }
 
   add(name: string): void {

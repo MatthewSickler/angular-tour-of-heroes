@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
@@ -15,18 +15,28 @@ import { HeroService } from './hero.service';
 export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
 
+  private source: string;
+
   constructor(
     private heroService: HeroService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.route.params.switchMap((params: Params) => this.heroService.getHero(+params['id'])).subscribe(hero => this.hero = hero);
+    //(+) converts string to integer
+    this.route.params.switchMap((params: Params) => {this.source = params['source']; return this.heroService.getHero(+params['id']);}).subscribe(hero => this.hero = hero);
   }
 
   goBack(): void {
-    this.location.back();
+    let heroId = this.hero ? this.hero.id : null;
+
+    if(this.source) {
+      this.router.navigate(['/' + this.source, {id: heroId}]);
+    } else {
+      this.location.back();
+    }
   }
 
   save(): void {
