@@ -14,12 +14,13 @@ import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
+import { ObservablesComponent } from './observables.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, PageNotFoundComponent],
+  declarations: [AppComponent, DashboardComponent, ObservablesComponent, PageNotFoundComponent],
   imports: [BrowserModule, FormsModule, HeroesModule, AppRoutingModule, HttpModule, InMemoryWebApiModule.forRoot(InMemoryDataService)],
   bootstrap: [AppComponent],
   providers: [StorageService]
