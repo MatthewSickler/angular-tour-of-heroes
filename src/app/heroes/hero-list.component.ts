@@ -4,8 +4,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
 
-import 'rxjs/add/operator/switchMap';
-
 @Component({
   selector: 'my-heroes',
   templateUrl: 'hero-list.component.html',
