@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
+import { StorageService } from './../storage.service';
 
 @Component({
   selector: 'my-heroes',
@@ -17,6 +18,7 @@ export class HeroListComponent implements OnInit {
 
   constructor(
     private heroService: HeroService,
+    private storageService: StorageService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -41,6 +43,10 @@ export class HeroListComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => this.selectedId = +params['id']);
     this.getHeroes();
+
+    console.log(this.storageService.getHeroes());
+    this.storageService.addHero({name: 'list', id: 2});
+    console.log(this.storageService.getHeroes());
   }
 
   onSelect(hero: Hero): void {

@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 
 import { HeroesModule } from './heroes/heroes.module';
 
+import { StorageService } from './storage.service';
+
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
@@ -20,7 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [AppComponent, DashboardComponent, PageNotFoundComponent],
   imports: [BrowserModule, FormsModule, HeroesModule, AppRoutingModule, HttpModule, InMemoryWebApiModule.forRoot(InMemoryDataService)],
   bootstrap: [AppComponent],
-  providers: []
+  providers: [StorageService]
 })
 
 export class AppModule { }
