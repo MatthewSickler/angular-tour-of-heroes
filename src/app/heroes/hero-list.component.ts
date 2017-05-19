@@ -47,6 +47,9 @@ export class HeroListComponent implements OnInit {
     console.log(this.storageService.getHeroes());
     this.storageService.addHero({name: 'list', id: 2});
     console.log(this.storageService.getHeroes());
+
+    let x = 1;
+    console.log(x);
   }
 
   onSelect(hero: Hero): void {
