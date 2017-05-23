@@ -1,0 +1,8 @@
+Git Follow HTML<br/><br/>
+
+<button (click)="refreshClickObs.next($event)">Refresh</button>
+<ul>
+  <li *ngFor="let user of userListShow; let i = index;">
+    <span>{{user.login}}</span><button (click)="clearUserClickObs.next(i)">x</button>
+  </li>
+</ul>
