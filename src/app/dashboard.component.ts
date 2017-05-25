@@ -21,8 +21,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.heroService.getHeroes().then(heroes => this.heroes = heroes.slice(1, 5));
 
-    console.log(this.storageService.getHeroes());
-    this.storageService.addHero({name: 'dash', id: 2});
-    console.log(this.storageService.getHeroes());
+    // console.log(this.storageService.getHeroes());
+    // this.storageService.addHero({name: 'dash', id: 2});
+    // console.log(this.storageService.getHeroes());
   }
 }

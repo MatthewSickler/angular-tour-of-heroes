@@ -33,7 +33,7 @@ export class HeroListComponent implements OnInit {
     }
 
     for(let x = 0; x < this.heroes.length; x++) {
-      if(this.heroes[x].id === this.selectedId) {
+      if(+this.heroes[x].id === this.selectedId) {
         this.selectedHero = this.heroes[x];
         return;
       }
@@ -44,12 +44,9 @@ export class HeroListComponent implements OnInit {
     this.route.params.subscribe(params => this.selectedId = +params['id']);
     this.getHeroes();
 
-    console.log(this.storageService.getHeroes());
-    this.storageService.addHero({name: 'list', id: 2});
-    console.log(this.storageService.getHeroes());
-
-    let x = 1;
-    console.log(x);
+    // console.log(this.storageService.getHeroes());
+    // this.storageService.addHero({name: 'list', id: 2});
+    // console.log(this.storageService.getHeroes());
   }
 
   onSelect(hero: Hero): void {
