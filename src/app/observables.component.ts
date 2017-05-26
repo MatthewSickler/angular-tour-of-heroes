@@ -18,6 +18,7 @@ export class ObservablesComponent implements OnInit {
   heroList: Observable<Hero[]>;
   s: Subject<number> = new Subject();
   multiClick: Subject<Event> = new Subject();
+  multiClickObs: Observable<number>;
   clickCount: number = 0;
 
   constructor (
@@ -48,6 +49,10 @@ export class ObservablesComponent implements OnInit {
     // this.s.next(4);
 
     //https://camo.githubusercontent.com/995c301de2f566db10748042a5a67cc5d9ac45d9/687474703a2f2f692e696d6775722e636f6d2f484d47574e4f352e706e67
-    this.multiClick.bufferWhen(() => this.multiClick.debounceTime(250)).map(arr => arr.length).subscribe(length => this.clickCount = length);
+    this.multiClickObs = this.multiClick.bufferWhen(() => this.multiClick
+                                      .debounceTime(250))
+                                      .map(arr => arr.length);
+
+    this.multiClickObs.subscribe(length => this.clickCount = length);
   }
 }
