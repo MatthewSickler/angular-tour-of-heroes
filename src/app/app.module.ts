@@ -21,9 +21,17 @@ import { PageNotFoundComponent } from './page-not-found.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStoreModule } from '@ngrx/router-store';
+
+import {reducer} from './reducers';
+import {HeroEffects} from './effects/hero.effects';
+
 @NgModule({
   declarations: [AppComponent, DashboardComponent, ObservablesComponent, GitFollowComponent, PageNotFoundComponent],
-  imports: [BrowserModule, FormsModule, HeroesModule, AppRoutingModule, HttpModule],//, InMemoryWebApiModule.forRoot(InMemoryDataService)
+  imports: [BrowserModule, FormsModule, HeroesModule, AppRoutingModule, HttpModule,
+    StoreModule.provideStore(reducer), RouterStoreModule.connectRouter(), EffectsModule.run(HeroEffects)],
   bootstrap: [AppComponent],
   providers: [StorageService, GitFollowService]
 })

@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
 import { StorageService } from './../storage.service';
+
+import { Store } from '@ngrx/store';
+import * as fromRoot from './../reducers';
+import * as heroActions from './../actions/hero.actions';
+
 
 @Component({
   selector: 'my-heroes',
@@ -15,12 +21,14 @@ export class HeroListComponent implements OnInit {
   selectedHero: Hero;
   heroes: Hero[];
   private selectedId: number;
+  heroesFromStore: Observable<Hero[]>;
 
   constructor(
     private heroService: HeroService,
     private storageService: StorageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store<fromRoot.State>
   ) {}
 
   getHeroes(): void {
@@ -43,6 +51,9 @@ export class HeroListComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => this.selectedId = +params['id']);
     this.getHeroes();
+
+    this.heroesFromStore = this.store.select(fromRoot.getAllHeroes);
+    this.heroesFromStore.subscribe(h => console.log(h));
 
     // console.log(this.storageService.getHeroes());
     // this.storageService.addHero({name: 'list', id: 2});
