@@ -33,7 +33,7 @@ export class HeroDetailComponent implements OnInit {
     let heroId = this.hero ? this.hero.id : null;
 
     if(this.source) {
-      this.router.navigate(['/' + this.source, {id: heroId}]);
+      this.router.navigate(['/' + this.source]);
     } else {
       this.location.back();
     }

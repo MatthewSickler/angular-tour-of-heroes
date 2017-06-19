@@ -4,7 +4,7 @@
   <button (click)="add(heroName.value); heroName.value=''">Add</button>
 </div>
 <ul class="heroes">
-  <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
+  <li *ngFor="let hero of heroesFromStore | async" (click)="onSelect(hero)" [class.selected]="hero?.id === selectedHero?.id">
     <span class="badge">{{hero.id}}</span>
     <span>{{hero.name}}</span>
     <button class="delete" (click) ="delete(hero); $event.stopPropagation()">x</button>
@@ -17,5 +17,3 @@
 
 <hr>
 <button routerLink="/sidekicks">Go to Sidekicks (page not found)</button>
-
-Heroes: {{heroesFromStore | async}}

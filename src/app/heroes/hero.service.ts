@@ -46,18 +46,14 @@ export class HeroService {
               .catch(this.handleError);
   }
 
-  create(name: string): Promise<Hero> {
+  create(name: string): Observable<Hero> {
     let body = {data: {name: name}};
-    return this.http.post(this.heroesUrl + 'addHero', body, this.headers)
-              .toPromise()
-              .then(res => res.json() as Hero)
+    return this.http.post(this.heroesUrl + 'addHero', body, this.headers).map(res => res.json())
               .catch(this.handleError);
   }
 
-  delete(id: number): Promise<void> {
-    return this.http.delete(this.heroesUrl + `deleteHero/${id}`)
-              .toPromise()
-              .then(() => null)
+  delete(id: number): Observable<number> {
+    return this.http.delete(this.heroesUrl + `deleteHero/${id}`).map(res => id)
               .catch(this.handleError);
   }
 }
