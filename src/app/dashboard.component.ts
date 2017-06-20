@@ -4,6 +4,8 @@ import { Hero } from './heroes/hero';
 import { HeroService } from './heroes/hero.service';
 import { StorageService } from './storage.service';
 
+import {Subject} from 'rxjs/Subject';
+
 import { Store } from '@ngrx/store';
 import * as fromRoot from './reducers';
 import {SET_DASHBOARD_STATE} from './reducers/hero.meta-reducer';
@@ -17,7 +19,7 @@ import {SET_DASHBOARD_STATE} from './reducers/hero.meta-reducer';
 export class DashboardComponent implements OnInit {
   heroes: Hero[] = [];
 
-  private selectedHeroSubscription;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
     private heroService: HeroService,
@@ -30,10 +32,11 @@ export class DashboardComponent implements OnInit {
 
     this.heroService.getHeroes().then(heroes => this.heroes = heroes.slice(1, 5));
 
-    this.selectedHeroSubscription = this.store.select(fromRoot.getSelectedHero).subscribe(hero => {console.log(hero);});
+    this.store.select(fromRoot.getSelectedHero).takeUntil(this.ngUnsubscribe).subscribe(hero => {console.log(hero);});
   }
 
   ngOnDestroy(): void {
-    this.selectedHeroSubscription.unsubscribe();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

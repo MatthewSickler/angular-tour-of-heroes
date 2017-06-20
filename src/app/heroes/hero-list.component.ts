@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
@@ -20,8 +21,7 @@ import {SET_LIST_STATE} from './../reducers/hero.meta-reducer';
 export class HeroListComponent implements OnInit {
   selectedHero: Hero;
   heroesFromStore: Observable<Hero[]>;
-  private listDataSubscription;
-  private selectedHeroSubscription;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
     private heroService: HeroService,
@@ -36,16 +36,16 @@ export class HeroListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch({type: SET_LIST_STATE});
     this.heroesFromStore = this.store.select(fromRoot.getAllHeroes);
-    this.listDataSubscription = this.heroesFromStore.subscribe(heroes => this.store.dispatch(new heroActions.GetSelectedHeroAction({heroes: heroes, id: this.selectedHero ? this.selectedHero.id : null})));
+    this.heroesFromStore.takeUntil(this.ngUnsubscribe).subscribe(heroes => this.store.dispatch(new heroActions.GetSelectedHeroAction({heroes: heroes, id: this.selectedHero ? this.selectedHero.id : null})));
 
-    this.selectedHeroSubscription = this.store.select(fromRoot.getSelectedHero).subscribe(hero => {console.log(hero); this.selectedHero = hero;});
+    this.store.select(fromRoot.getSelectedHero).takeUntil(this.ngUnsubscribe).subscribe(hero => {console.log(hero); this.selectedHero = hero;});
 
     this.getHeroes();
   }
 
   ngOnDestroy(): void {
-    this.listDataSubscription.unsubscribe();
-    this.selectedHeroSubscription.unsubscribe();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   onSelect(hero: Hero): void {
