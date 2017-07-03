@@ -8,14 +8,14 @@ const DASHBOARD_ACTIVE = 2;
 
 export const heroMetaReducer = reducer => {
   let listState = reducer(undefined, {type: INIT}), dashboardState = reducer(undefined, {type: INIT}), activeState = NONE_ACTIVE;
-  console.log("Meta Reducer");
+  // console.log("Meta Reducer");
 
   return function (state, action) {
     switch(action.type) {
 
       case SET_LIST_STATE:
-      console.log("Active State: " + activeState);
-      console.log("Set List State");
+      // console.log("Active State: " + activeState);
+      // console.log("Set List State");
         switch(activeState) {
           case NONE_ACTIVE:
           activeState = LIST_ACTIVE;
@@ -32,8 +32,8 @@ export const heroMetaReducer = reducer => {
 
 
       case SET_DASHBOARD_STATE:
-      console.log("Active State: " + activeState);
-      console.log("Set Dashboard State");
+      // console.log("Active State: " + activeState);
+      // console.log("Set Dashboard State");
         switch(activeState) {
           case NONE_ACTIVE:
           activeState = DASHBOARD_ACTIVE;

@@ -21,14 +21,14 @@ export function reducer(state = initialState, action: heroActions.Actions): Stat
       return Object.assign({}, state, {heroes: heroes});
 
     case heroActions.GET_SELECTED_HERO:
-      const h = action.payload.heroes;
+      const h = state.heroes;
       const id = action.payload.id;
       for(let x = 0; x < h.length; x++) {
         if(+h[x].id === id) {
           return Object.assign({}, state, {selectedHero: h[x]});
         }
       }
-      return state;
+      return Object.assign({}, state, {selectedHero: null});
 
     case heroActions.SET_SELECTED_HERO:
       const hero = action.payload;

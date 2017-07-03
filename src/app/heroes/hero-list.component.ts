@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 
 import { Hero } from './hero';
-import { HeroService } from './hero.service';
 
 import { Store } from '@ngrx/store';
 import * as fromRoot from './../reducers';
@@ -22,9 +21,9 @@ export class HeroListComponent implements OnInit {
   selectedHero: Hero;
   heroesFromStore: Observable<Hero[]>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  title: String = "Original Title";
 
   constructor(
-    private heroService: HeroService,
     private router: Router,
     private store: Store<fromRoot.State>
   ) {}
@@ -36,9 +35,9 @@ export class HeroListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch({type: SET_LIST_STATE});
     this.heroesFromStore = this.store.select(fromRoot.getAllHeroes);
-    this.heroesFromStore.takeUntil(this.ngUnsubscribe).subscribe(heroes => this.store.dispatch(new heroActions.GetSelectedHeroAction({heroes: heroes, id: this.selectedHero ? this.selectedHero.id : null})));
+    this.heroesFromStore.takeUntil(this.ngUnsubscribe).subscribe(heroes => this.store.dispatch(new heroActions.GetSelectedHeroAction({id: this.selectedHero ? this.selectedHero.id : null})));
 
-    this.store.select(fromRoot.getSelectedHero).takeUntil(this.ngUnsubscribe).subscribe(hero => {console.log(hero); this.selectedHero = hero;});
+    this.store.select(fromRoot.getSelectedHero).takeUntil(this.ngUnsubscribe).subscribe(hero => {this.selectedHero = hero;}); //console.log(hero);
 
     this.getHeroes();
   }

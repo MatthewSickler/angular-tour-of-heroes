@@ -9,7 +9,8 @@ exports.config = {
     './e2e/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'loggingPrefs': {"driver": "INFO", "server": "INFO", "browser": "OFF"}
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
