@@ -63,10 +63,6 @@ describe('Hero List Real Store', () => {
     expect(el.textContent).toEqual('Original Title');
   });
 
-  // fit('should dispatch to set list state', () => {
-  //   expect(storeSpy).toHaveBeenCalledWith({type: SET_LIST_STATE});
-  // });
-
   it('should dispatch add hero on button press', () => {
     let inputEl = fixture.debugElement.query(By.css('#heroName')).nativeElement, button = fixture.debugElement.query(By.css('#addHero'));
 

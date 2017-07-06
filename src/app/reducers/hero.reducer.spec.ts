@@ -37,6 +37,15 @@ describe('HeroReducer', () => {
     testState = reducer(testState, testAction);
 
     expect(testState.selectedHero).toBeNull();
+  });
+
+  it('should remove deleted hero from local data', () => {
+    let testAction = new heroActions.DeleteHeroCompleteAction(1);
+
+    testState = reducer(testState, testAction);
+
+    expect(testState.heroes[0].id).toEqual(2);
+    expect(testState.heroes.length).toEqual(1);
   })
 
 })

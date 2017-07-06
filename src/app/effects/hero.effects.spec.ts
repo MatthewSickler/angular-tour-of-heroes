@@ -21,7 +21,7 @@ describe('HeroEffects', () => {
       imports: [EffectsTestingModule],
       providers: [
         HeroEffects,
-        {provide: HeroService, useValue: jasmine.createSpyObj('heroService', ['getHeroesObs', 'create'])}
+        {provide: HeroService, useValue: jasmine.createSpyObj('heroService', ['getHeroesObs', 'create', 'delete'])}
       ]
     });
   });
@@ -39,7 +39,7 @@ describe('HeroEffects', () => {
     };
   }
 
-  it('should return list of heroes', fakeAsync(() => {
+  it('should call search all complete action', fakeAsync(() => {
     const hero1 = {id: 1, name: "One"} as Hero;
     const hero2 = {id: 2, name: "Two"} as Hero;
     const heroList = [hero1, hero2] as Hero[];
@@ -54,7 +54,7 @@ describe('HeroEffects', () => {
     expect(result).toEqual(expectedResult);
   }));
 
-  it('should call add complete action after add', fakeAsync(() => {
+  it('should call add complete action', fakeAsync(() => {
     const {runner, heroEffects, heroService} = setup('create', {returnValue: new Observable((observer: any) => observer.next(newHero))});
 
     const expectedResult = new heroActions.AddHeroCompleteAction(newHero);
@@ -68,21 +68,38 @@ describe('HeroEffects', () => {
   it('should trim spaces from hero name before calling service', fakeAsync(() => {
     const {runner, heroEffects, heroService} = setup('create', {returnValue: new Observable((observer: any) => observer.next(newHero))});
 
-    runner.queue(new heroActions.AddHeroAction(" Three "));
+    runner.queue(new heroActions.AddHeroAction(" Spaces "));
 
     let result = null;
     heroEffects.add.subscribe(_result => result = _result);
-    expect(heroService.create).toHaveBeenCalledWith("Three");
+    expect(heroService.create).toHaveBeenCalledWith("Spaces");
   }));
 
-  it('should not call service if name is blank', fakeAsync(() => {
-    const {runner, heroEffects, heroService} = setup('create', {returnValue: new Observable((observer: any) => observer.next(newHero))});
+  it('should not call service if name is blank or only contains spaces', fakeAsync(() => {
+    let runner, heroEffects, heroService, result = null;
+
+    ({runner, heroEffects, heroService} = setup('create', {returnValue: new Observable((observer: any) => observer.next(newHero))}));
+    heroEffects.add.subscribe(_result => result = _result);
+
+    runner.queue(new heroActions.AddHeroAction(""));
+    expect(heroService.create).not.toHaveBeenCalled();
 
     runner.queue(new heroActions.AddHeroAction("  "));
+    expect(heroService.create).not.toHaveBeenCalled();
+
+    runner.queue(new heroActions.AddHeroAction("           "));
+    expect(heroService.create).not.toHaveBeenCalled();
+  }));
+
+  it('should call delete complete action', fakeAsync(() => {
+    const {runner, heroEffects, heroService} = setup('delete', {returnValue: new Observable((observer: any) => observer.next(2))});
+
+    const expectedResult = new heroActions.DeleteHeroCompleteAction(2);
+    runner.queue(new heroActions.DeleteHeroAction(2));
 
     let result = null;
-    heroEffects.add.subscribe(_result => result = _result);
-    expect(heroService.create).not.toHaveBeenCalled();
+    heroEffects.delete.subscribe(_result => result = _result);
+    expect(result).toEqual(expectedResult);
   }));
 
 

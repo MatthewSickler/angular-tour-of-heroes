@@ -21,6 +21,10 @@ export class HeroListPage {
     return element.all(by.id('heroListElements'));
   }
 
+  getLastHeroDeleteButton() {
+    return element.all(by.id('heroListElements')).last().element(by.id('heroDelete'));
+  }
+
   pause() {
     browser.pause();
   }

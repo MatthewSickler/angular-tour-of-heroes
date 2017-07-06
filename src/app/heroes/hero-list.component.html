@@ -8,7 +8,7 @@
   <li id="heroListElements" *ngFor="let hero of heroesFromStore | async" (click)="onSelect(hero)" [class.selected]="hero?.id === selectedHero?.id">
     <span class="badge">{{hero.id}}</span>
     <span>{{hero.name}}</span>
-    <button class="delete" (click) ="delete(hero); $event.stopPropagation()">x</button>
+    <button id="heroDelete" class="delete" (click) ="delete(hero); $event.stopPropagation()">x</button>
   </li>
 </ul>
 <div *ngIf="selectedHero">
