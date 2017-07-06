@@ -2,11 +2,7 @@ import {HeroListPage} from './app.po';
 import { browser, element, by } from 'protractor';
 
 describe('angular-tour-of-heroes App', () => {
-  let page: HeroListPage;
-  let addNameElement;
-  let addHeroButton;
-  let allHeroElements;
-  let initialNumberOfHeroes;
+  let page: HeroListPage, addNameElement, addHeroButton, allHeroElements, initialNumberOfHeroes, deleteHeroButton, title;
 
   beforeEach(() => {
     page = new HeroListPage();
@@ -21,9 +17,21 @@ describe('angular-tour-of-heroes App', () => {
 
   it('should have a title', () => {
     page.navigateTo();
+    title = page.getTitle();
 
-    expect(page.getTitle()).toEqual('AngularTourOfHeroes');
+    expect(title).toEqual('AngularTourOfHeroes');
   });
+
+  // it('should have a title sync', () => {
+  //   page.navigateTo();
+  //   let titlePromise = page.getTitle().then(t => title = t);
+  //
+  //   let waitPromise = browser.wait(titlePromise, 30 * 1000, 'Getting Title');
+  //
+  //   waitPromise.then(() => {
+  //     expect(title).toEqual('AngularTourOfHeroes');
+  //   })
+  // });
 
   it('should add a hero', () => {
     page.navigateTo();
@@ -65,7 +73,7 @@ describe('angular-tour-of-heroes App', () => {
   it('should delete the last hero in the list', () => {
     page.navigateTo();
 
-    let deleteHeroButton = page.getLastHeroDeleteButton();
+    deleteHeroButton = page.getLastHeroDeleteButton();
 
     allHeroElements.count().then(count => {console.log("Before Delete: " + count); initialNumberOfHeroes = count;});
     let waitPromise = browser.wait(() => {return initialNumberOfHeroes > 0;}, 30 * 1000, 'Counting Current Heroes');
