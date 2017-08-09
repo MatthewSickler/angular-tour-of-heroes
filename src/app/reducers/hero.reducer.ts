@@ -3,6 +3,7 @@ import {Hero} from './../heroes/hero';
 import { createSelector } from 'reselect';
 
 import * as heroActions from './../actions/hero.actions';
+import {heroMetaReducer} from './hero.meta-reducer';
 
 export interface State {
   heroes: Hero[];
@@ -14,7 +15,7 @@ export const initialState: State = {
   selectedHero: null
 };
 
-export function reducer(state = initialState, action: heroActions.Actions): State {
+export function heroReducer(state = initialState, action: heroActions.Actions): State {
   switch(action.type) {
     case heroActions.SEARCH_ALL_COMPLETE:
       const heroes = action.payload;
@@ -50,6 +51,14 @@ export function reducer(state = initialState, action: heroActions.Actions): Stat
     default:
       return state;
   }
+}
+
+//Apply Meta-Reducer here to be AoT compliant
+//https://github.com/rangle/redux-gtm/issues/39#issuecomment-260747501
+var combinedReducer = heroMetaReducer(heroReducer);
+
+export function reducer(state: State, action: heroActions.Actions) {
+  return combinedReducer(state, action);
 }
 
 export const getAllHeroes = (state: State) => state.heroes;

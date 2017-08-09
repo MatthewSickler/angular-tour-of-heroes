@@ -6,7 +6,7 @@ const NONE_ACTIVE = 0;
 const LIST_ACTIVE = 1;
 const DASHBOARD_ACTIVE = 2;
 
-export const heroMetaReducer = reducer => {
+export function heroMetaReducer(reducer) {
   let listState = reducer(undefined, {type: INIT}), dashboardState = reducer(undefined, {type: INIT}), activeState = NONE_ACTIVE;
   // console.log("Meta Reducer");
 

@@ -4,7 +4,7 @@ import { DebugElement }    from '@angular/core';
 
 import { Action } from '@ngrx/store';
 
-import { reducer, State } from './hero.reducer';
+import { heroReducer, State } from './hero.reducer';
 import * as heroActions from './../actions/hero.actions';
 
 describe('HeroReducer', () => {
@@ -20,13 +20,13 @@ describe('HeroReducer', () => {
   it('should get selected hero', () => {
     let testAction = new heroActions.GetSelectedHeroAction({id: testState.heroes[0].id});
 
-    testState = reducer(testState, testAction);
+    testState = heroReducer(testState, testAction);
 
     expect(testState.selectedHero).toBe(testState.heroes[0]);
 
     testAction = new heroActions.GetSelectedHeroAction({id: testState.heroes[1].id});
 
-    testState = reducer(testState, testAction);
+    testState = heroReducer(testState, testAction);
 
     expect(testState.selectedHero).toBe(testState.heroes[1]);
   });
@@ -34,7 +34,7 @@ describe('HeroReducer', () => {
   it('should set selected hero to null if not found', () => {
     let testAction = new heroActions.GetSelectedHeroAction({id: -1});
 
-    testState = reducer(testState, testAction);
+    testState = heroReducer(testState, testAction);
 
     expect(testState.selectedHero).toBeNull();
   });
@@ -42,7 +42,7 @@ describe('HeroReducer', () => {
   it('should remove deleted hero from local data', () => {
     let testAction = new heroActions.DeleteHeroCompleteAction(1);
 
-    testState = reducer(testState, testAction);
+    testState = heroReducer(testState, testAction);
 
     expect(testState.heroes[0].id).toEqual(2);
     expect(testState.heroes.length).toEqual(1);
