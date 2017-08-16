@@ -21,6 +21,8 @@ import { PageNotFoundComponent } from './page-not-found.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import {ClickOutsideDirective} from './../directives/clickOutside.directive';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -29,7 +31,7 @@ import {reducers} from './reducers';
 import {HeroEffects} from './effects/hero.effects';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, ObservablesComponent, GitFollowComponent, PageNotFoundComponent],
+  declarations: [AppComponent, DashboardComponent, ObservablesComponent, GitFollowComponent, PageNotFoundComponent, ClickOutsideDirective],
   imports: [BrowserModule, FormsModule, HeroesModule, AppRoutingModule, HttpModule,
     StoreModule.forRoot(reducers), StoreRouterConnectingModule, EffectsModule.forRoot([HeroEffects])],
   bootstrap: [AppComponent],

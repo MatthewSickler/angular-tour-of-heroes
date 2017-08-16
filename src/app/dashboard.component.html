@@ -1,4 +1,4 @@
-<h3>Top Heroes</h3>
+<h3 (clickOutside)="notClicked()">Top Heroes</h3>
 <div class="grid grid-pad">
   <a *ngFor="let hero of heroes" [routerLink]="['/hero', hero.id, {source: 'dashboard', test: 'blah'}]" class="col-1-4">
     <div class="module hero">

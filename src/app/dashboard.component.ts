@@ -39,4 +39,8 @@ export class DashboardComponent implements OnInit {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
+  notClicked(): void {
+    console.log("notClicked");
+  }
 }
