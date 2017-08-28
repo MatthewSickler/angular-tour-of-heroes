@@ -53,20 +53,20 @@ describe('Hero List', () => {
 
   it('should display original title', () => {
     // Hooray! No `fixture.detectChanges()` needed
-    expect(el.textContent).toContain(comp.title);
+    expect(el.textContent).toContain(comp.title.toString());
   });
 
   it('should still see original title after comp.title change', () => {
     const oldTitle = comp.title;
     comp.title = 'Test Title';
     // Displayed title is old because Angular didn't hear the change :(
-    expect(el.textContent).toContain(oldTitle);
+    expect(el.textContent).toContain(oldTitle.toString());
   });
 
   it('should display updated title after detectChanges', () => {
     comp.title = 'Test Title';
     fixture.detectChanges(); // detect changes explicitly
-    expect(el.textContent).toContain(comp.title);
+    expect(el.textContent).toContain(comp.title.toString());
   });
 
   it('should dispatch to set list state', () => {

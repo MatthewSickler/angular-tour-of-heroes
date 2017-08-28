@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 import {HeroListComponent} from './hero-list.component';
 import {HeroService} from './hero.service';
 
-import { Action, Store, StoreModule, provideStore } from "@ngrx/store";
+import { Action, Store, StoreModule, combineReducers } from "@ngrx/store";
 import { Subject } from "rxjs/Subject";
 import {Observable} from 'rxjs/Observable';
 
 import * as heroActions from './../actions/hero.actions';
-import {reducer} from './../reducers';
+import {reducers} from './../reducers';
 import {SET_LIST_STATE} from './../reducers/hero.meta-reducer';
 import * as fromRoot from './../reducers';
 
@@ -29,20 +29,19 @@ describe('Hero List Real Store', () => {
     TestBed.configureTestingModule({
       declarations: [HeroListComponent],
       providers: [
-        provideStore(reducer),
+        {provide: Store, useValue: StoreModule.forRoot(reducers)},
         { provide: ComponentFixtureAutoDetect, useValue: true },
         {provide: Router, useValue: Router}
       ]
     });
 
     fixture = TestBed.createComponent(HeroListComponent);
-
     comp = fixture.componentInstance;
 
     de = fixture.debugElement.query(By.css('#titleFromClassVar'));
     el = de.nativeElement;
-
     store = fixture.debugElement.injector.get(Store);
+
     store.dispatch(new heroActions.SearchAllCompleteAction([{id: 1, name: "One"}, {id: 2, name: "Two"}]));
     store.dispatch(new heroActions.SetSelectedHeroAction({id: 2, name: "Two"}));
 
