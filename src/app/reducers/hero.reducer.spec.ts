@@ -9,6 +9,7 @@ import * as heroActions from './../actions/hero.actions';
 
 describe('HeroReducer', () => {
   let testState: State;
+  let testAction: heroActions.Actions;
 
   beforeEach(() => {
     testState = {
@@ -18,7 +19,7 @@ describe('HeroReducer', () => {
   });
 
   it('should get selected hero', () => {
-    let testAction = new heroActions.GetSelectedHeroAction({id: testState.heroes[0].id});
+    testAction = new heroActions.GetSelectedHeroAction({id: testState.heroes[0].id});
 
     testState = heroReducer(testState, testAction);
 
@@ -32,7 +33,7 @@ describe('HeroReducer', () => {
   });
 
   it('should set selected hero to null if not found', () => {
-    let testAction = new heroActions.GetSelectedHeroAction({id: -1});
+    testAction = new heroActions.GetSelectedHeroAction({id: -1});
 
     testState = heroReducer(testState, testAction);
 
@@ -40,7 +41,7 @@ describe('HeroReducer', () => {
   });
 
   it('should remove deleted hero from local data', () => {
-    let testAction = new heroActions.DeleteHeroCompleteAction(1);
+    testAction = new heroActions.DeleteHeroCompleteAction(1);
 
     testState = heroReducer(testState, testAction);
 
